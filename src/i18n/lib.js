@@ -17,6 +17,7 @@ import '@formatjs/intl-pluralrules/locale-data/pt';
 import '@formatjs/intl-pluralrules/locale-data/ru';
 import '@formatjs/intl-pluralrules/locale-data/th';
 import '@formatjs/intl-pluralrules/locale-data/uk';
+import '@formatjs/intl-pluralrules/locale-data/vi';
 
 import '@formatjs/intl-relativetimeformat/polyfill';
 import '@formatjs/intl-relativetimeformat/locale-data/ar';
@@ -33,6 +34,7 @@ import '@formatjs/intl-relativetimeformat/locale-data/pt';
 import '@formatjs/intl-relativetimeformat/locale-data/ru';
 import '@formatjs/intl-relativetimeformat/locale-data/th';
 import '@formatjs/intl-relativetimeformat/locale-data/uk';
+import '@formatjs/intl-relativetimeformat/locale-data/vi';
 
 const cookies = new Cookies();
 const supportedLocales = [
@@ -50,6 +52,7 @@ const supportedLocales = [
   'ru', // Russian
   'th', // Thai
   'uk', // Ukrainian
+  'vi', // Vietnamese
 ];
 const rtlLocales = [
   'ar', // Arabic
@@ -148,15 +151,16 @@ export function findSupportedLocale(locale) {
  */
 export function getLocale(locale) {
   if (messages === null) {
-    throw new Error('getLocale called before configuring i18n. Call configure with messages first.');
+    throw new Error(
+      'getLocale called before configuring i18n. Call configure with messages first.'
+    );
   }
   // 1. Explicit application request
   if (locale !== undefined) {
     return findSupportedLocale(locale);
   }
   // 2. User setting in cookie
-  const cookieLangPref = cookies
-    .get(config.LANGUAGE_PREFERENCE_COOKIE_NAME);
+  const cookieLangPref = cookies.get(config.LANGUAGE_PREFERENCE_COOKIE_NAME);
   if (cookieLangPref) {
     return findSupportedLocale(cookieLangPref.toLowerCase());
   }
@@ -217,6 +221,7 @@ const messagesShape = {
   ru: PropTypes.objectOf(PropTypes.string), // Russian
   th: PropTypes.objectOf(PropTypes.string), // Thai
   uk: PropTypes.objectOf(PropTypes.string), // Ukrainian
+  vi: PropTypes.objectOf(PropTypes.string), // Vietnamese
 };
 
 const optionsShape = {
@@ -259,7 +264,9 @@ export function configure(options) {
   loggingService = options.loggingService;
   // eslint-disable-next-line prefer-destructuring
   config = options.config;
-  messages = Array.isArray(options.messages) ? mergeMessages(options.messages) : options.messages;
+  messages = Array.isArray(options.messages)
+    ? mergeMessages(options.messages)
+    : options.messages;
 
   if (config.ENVIRONMENT !== 'production') {
     Object.keys(messages).forEach((key) => {
