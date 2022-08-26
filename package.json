@@ -1,8 +1,8 @@
 {
   "name": "@zephyrphone1/ohstem-frontend-platform",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Foundational application framework for Open edX micro-frontend applications.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "publishConfig": {
     "access": "public"
   },
