@@ -3,6 +3,10 @@
   "version": "1.0.5",
   "description": "Foundational application framework for Open edX micro-frontend applications.",
   "main": "dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./": "./dist/"
+  },
   "publishConfig": {
     "access": "public"
   },
