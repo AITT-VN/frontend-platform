@@ -1,44 +1,47 @@
-import PropTypes from 'prop-types';
-import { addLocaleData } from 'react-intl';
-import arLocale from 'react-intl/locale-data/ar';
-import enLocale from 'react-intl/locale-data/en';
-import esLocale from 'react-intl/locale-data/es';
-import frLocale from 'react-intl/locale-data/fr';
-import zhLocale from 'react-intl/locale-data/zh';
-import caLocale from 'react-intl/locale-data/ca';
-import heLocale from 'react-intl/locale-data/he';
-import idLocale from 'react-intl/locale-data/id';
-import koLocale from 'react-intl/locale-data/ko';
-import plLocale from 'react-intl/locale-data/pl';
-import ptLocale from 'react-intl/locale-data/pt';
-import ruLocale from 'react-intl/locale-data/ru';
-import thLocale from 'react-intl/locale-data/th';
-import ukLocale from 'react-intl/locale-data/uk';
-import Cookies from 'universal-cookie';
-import merge from 'lodash.merge';
+import PropTypes from "prop-types";
+import { addLocaleData } from "react-intl";
+import arLocale from "react-intl/locale-data/ar";
+import enLocale from "react-intl/locale-data/en";
+import esLocale from "react-intl/locale-data/es";
+import frLocale from "react-intl/locale-data/fr";
+import zhLocale from "react-intl/locale-data/zh";
+import caLocale from "react-intl/locale-data/ca";
+import heLocale from "react-intl/locale-data/he";
+import idLocale from "react-intl/locale-data/id";
+import koLocale from "react-intl/locale-data/ko";
+import plLocale from "react-intl/locale-data/pl";
+import ptLocale from "react-intl/locale-data/pt";
+import ruLocale from "react-intl/locale-data/ru";
+import thLocale from "react-intl/locale-data/th";
+import ukLocale from "react-intl/locale-data/uk";
+import viLocale from "react-intl/locale-data/vi";
+
+import Cookies from "universal-cookie";
+import merge from "lodash.merge";
 
 const cookies = new Cookies();
 const supportedLocales = [
-  'ar', // Arabic
+  "ar", // Arabic
   // NOTE: 'en' is not included in this list intentionally, since it's the fallback.
-  'es-419', // Spanish, Latin American
-  'fr', // French
-  'zh-cn', // Chinese, Simplified
-  'ca', // Catalan
-  'he', // Hebrew
-  'id', // Indonesian
-  'ko-kr', // Korean (Korea)
-  'pl', // Polish
-  'pt-br', // Portuguese (Brazil)
-  'ru', // Russian
-  'th', // Thai
-  'uk', // Ukrainian
+  "es-419", // Spanish, Latin American
+  "fr", // French
+  "zh-cn", // Chinese, Simplified
+  "ca", // Catalan
+  "he", // Hebrew
+  "id", // Indonesian
+  "ko-kr", // Korean (Korea)
+  "pl", // Polish
+  "pt-br", // Portuguese (Brazil)
+  "ru", // Russian
+  "th", // Thai
+  "uk", // Ukrainian
+  "vi", // Vietnamese
 ];
 const rtlLocales = [
-  'ar', // Arabic
-  'he', // Hebrew
-  'fa', // Farsi (not currently supported)
-  'ur', // Urdu (not currently supported)
+  "ar", // Arabic
+  "he", // Hebrew
+  "fa", // Farsi (not currently supported)
+  "ur", // Urdu (not currently supported)
 ];
 
 let config = null;
@@ -56,7 +59,7 @@ export const getLoggingService = () => loggingService;
 /**
  * @memberof module:Internationalization
  */
-export const LOCALE_TOPIC = 'LOCALE';
+export const LOCALE_TOPIC = "LOCALE";
 
 /**
  * @memberof module:Internationalization
@@ -87,6 +90,7 @@ addLocaleData([
   ...ruLocale,
   ...thLocale,
   ...ukLocale,
+  ...viLocale,
 ]);
 
 /**
@@ -98,7 +102,7 @@ addLocaleData([
  * @memberof module:Internationalization
  */
 export function getPrimaryLanguageSubtag(code) {
-  return code.split('-')[0];
+  return code.split("-")[0];
 }
 
 /**
@@ -122,7 +126,7 @@ export function findSupportedLocale(locale) {
     return getPrimaryLanguageSubtag(locale);
   }
 
-  return 'en';
+  return "en";
 }
 
 /**
@@ -137,15 +141,14 @@ export function findSupportedLocale(locale) {
  */
 export function getLocale(locale) {
   if (messages === null) {
-    throw new Error('getLocale called before configuring i18n. Call configure with messages first.');
+    throw new Error("getLocale called before configuring i18n. Call configure with messages first.");
   }
   // 1. Explicit application request
   if (locale !== undefined) {
     return findSupportedLocale(locale);
   }
   // 2. User setting in cookie
-  const cookieLangPref = cookies
-    .get(config.LANGUAGE_PREFERENCE_COOKIE_NAME);
+  const cookieLangPref = cookies.get(config.LANGUAGE_PREFERENCE_COOKIE_NAME);
   if (cookieLangPref) {
     return findSupportedLocale(cookieLangPref.toLowerCase());
   }
@@ -185,27 +188,28 @@ export function isRtl(locale) {
  */
 export function handleRtl() {
   if (isRtl(getLocale())) {
-    global.document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
+    global.document.getElementsByTagName("html")[0].setAttribute("dir", "rtl");
   } else {
-    global.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
+    global.document.getElementsByTagName("html")[0].setAttribute("dir", "ltr");
   }
 }
 
 const messagesShape = {
   ar: PropTypes.objectOf(PropTypes.string), // Arabic
   en: PropTypes.objectOf(PropTypes.string),
-  'es-419': PropTypes.objectOf(PropTypes.string), // Spanish, Latin American
+  "es-419": PropTypes.objectOf(PropTypes.string), // Spanish, Latin American
   fr: PropTypes.objectOf(PropTypes.string), // French
-  'zh-cn': PropTypes.objectOf(PropTypes.string), // Chinese, Simplified
+  "zh-cn": PropTypes.objectOf(PropTypes.string), // Chinese, Simplified
   ca: PropTypes.objectOf(PropTypes.string), // Catalan
   he: PropTypes.objectOf(PropTypes.string), // Hebrew
   id: PropTypes.objectOf(PropTypes.string), // Indonesian
-  'ko-kr': PropTypes.objectOf(PropTypes.string), // Korean (Korea)
+  "ko-kr": PropTypes.objectOf(PropTypes.string), // Korean (Korea)
   pl: PropTypes.objectOf(PropTypes.string), // Polish
-  'pt-br': PropTypes.objectOf(PropTypes.string), // Portuguese (Brazil)
+  "pt-br": PropTypes.objectOf(PropTypes.string), // Portuguese (Brazil)
   ru: PropTypes.objectOf(PropTypes.string), // Russian
   th: PropTypes.objectOf(PropTypes.string), // Thai
   uk: PropTypes.objectOf(PropTypes.string), // Ukrainian
+  vi: PropTypes.objectOf(PropTypes.string), // Vietnamese
 };
 
 const optionsShape = {
@@ -213,10 +217,8 @@ const optionsShape = {
   loggingService: PropTypes.shape({
     logError: PropTypes.func.isRequired,
   }).isRequired,
-  messages: PropTypes.oneOfType([
-    PropTypes.shape(messagesShape),
-    PropTypes.arrayOf(PropTypes.shape(messagesShape)),
-  ]).isRequired,
+  messages: PropTypes.oneOfType([PropTypes.shape(messagesShape), PropTypes.arrayOf(PropTypes.shape(messagesShape))])
+    .isRequired,
 };
 
 /**
@@ -243,14 +245,14 @@ export function mergeMessages(messagesArray = []) {
  * @memberof module:Internationalization
  */
 export function configure(options) {
-  PropTypes.checkPropTypes(optionsShape, options, 'property', 'i18n');
+  PropTypes.checkPropTypes(optionsShape, options, "property", "i18n");
   // eslint-disable-next-line prefer-destructuring
   loggingService = options.loggingService;
   // eslint-disable-next-line prefer-destructuring
   config = options.config;
   messages = Array.isArray(options.messages) ? mergeMessages(options.messages) : options.messages;
 
-  if (config.ENVIRONMENT !== 'production') {
+  if (config.ENVIRONMENT !== "production") {
     Object.keys(messages).forEach((key) => {
       if (supportedLocales.indexOf(key) < 0) {
         console.warn(`Unexpected locale: ${key}`); // eslint-disable-line no-console
